@@ -1,0 +1,171 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: montserrat;
+    src: url("../assets/fonts/Montserrat-SemiBold.ttf") format("truetype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: montserrat2;
+    src: url("../assets/fonts/Montserrat-Medium.ttf") format("truetype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: montserrat3;
+    src: url("../assets/fonts/Montserrat-Light.ttf") format("truetype");
+    font-weight: 400;
+}
+
+.logo {
+    padding-top: 3.125rem;
+    text-align: center;
+}
+
+.logo img {
+    width: 25%;
+    height: auto;
+}
+
+a.sin-decoracion {
+    text-decoration: none;
+    color: #fff;
+}
+
+a.sin-decoracion:hover {
+    transform: scale(1.01);
+    color: #F7E8A4;
+}
+
+.catalogos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    justify-content: center;
+    padding: 2rem;
+    padding-bottom: 9.375rem;
+    padding-top: 9.375rem;
+    align-items: stretch;
+}
+
+.catalogos .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-self: center;
+    height: 100%;
+    min-height: 23.75rem;
+    width: 100%;
+}
+
+.u-card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    padding: 1rem;
+}
+
+.u-comprar-btn {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.card-img-top {
+    height: 12.5rem;
+    object-fit: contain;
+}
+
+.u-btn-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: auto;
+    justify-content: center;
+}
+
+.button {
+    background-color: #191716;
+    border-radius: 0.3125rem;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: montserrat;
+    padding: 0.625rem;
+}
+
+.button:hover {
+    background-color: #fff;
+    transform: scale(1.01);
+    color: #191716;
+}
+
+a {
+    text-decoration: none;
+}
+
+.title {
+    padding-top: 3.125rem;
+}
+
+.h2 {
+    font-family: montserrat;
+    text-align: center;
+    padding-top: 1.875rem;
+}
+
+.pimg {
+    padding: 1.25rem;
+    text-align: center;
+    font-family: montserrat;
+}
+
+@media (max-width: 48rem) {
+    .catalogos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 30rem) {
+    .catalogos {
+        grid-template-columns: 1fr;
+    }
+}
+
+.title form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 3.125rem;
+    font-family: montserrat3;
+}
+
+.buscar input {
+    height: 1.875rem;
+}
+
+nav {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 1.25rem;
+    background-color: #191716;
+}
+
+nav a {
+    color: #fff;
+    font-family: montserrat3;
+}
+
+.h3 {
+    font-family: montserrat;
+    text-align: center;
+    padding: 1.875rem;
+    border-radius: 2px;
+    border-color: #191716;
+    border-style: solid;
+}
