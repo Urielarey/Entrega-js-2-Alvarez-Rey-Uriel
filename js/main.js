@@ -1,55 +1,55 @@
 const productos = [
     {
         id: 1,
-        image: "../assets/img/vaperred-Photoroom.jpg",
+        image: "/assets/img/vaperred-Photoroom.jpg",
         nombre: "Vaper Elfbar Rojo",
         precio: 27000
     },
     {
         id: 2,
-        image: "../assets/img/vapergreen.jpg",
+        image: "/assets/img/vapergreen.jpg",
         nombre: "Vaper Elfbar Verde",
         precio: 27000
     },
     {
         id: 3,
-        image: "../assets/img/vaperpurple.jpg",
+        image: "/assets/img/vaperpurple.jpg",
         nombre: "Vaper Elfbar Violeta",
         precio: 27000
     },
     {
         id: 4,
-        image: "..//assets/img/jbltune2.jpg",
+        image: "/assets/img/jbltune2.jpg",
         nombre: "Auriculares JBL Tune",
         precio: 53000
     },
     {
         id: 5,
-        image: "../assets/img/jblwavebeambl1.jpg",
+        image: "/assets/img/jblwavebeambl1.jpg",
         nombre: "Auriculares JBL Wave Beam 2 Bl",
         precio: 85000
     },
     {
         id: 6,
-        image: "../assets/img/jblwavebeamne1.jpg",
+        image: "/assets/img/jblwavebeamne1.jpg",
         nombre: "Auriculares JBL Wave Beam 2 Ne",
         precio: 85000
     },
     {
         id: 7,
-        image: "../assets/img/vasotermico1.jpg",
+        image: "/assets/img/vasotermico1.jpg",
         nombre: "Vaso Termico Stanley (710ml)",
         precio: 90000
     },
     {
         id: 8,
-        image: "../assets/img/jblflip1.jpg",
+        image: "/assets/img/jblflip1.jpg",
         nombre: "Parlante JBL Flip 6",
         precio: 180000
     },
     {
         id: 9,
-        image: "../assets/img/jblgo1.jpg",
+        image: "/assets/img/jblgo1.jpg",
         nombre: "Parlante JBL Go 4",
         precio: 60000
     },
