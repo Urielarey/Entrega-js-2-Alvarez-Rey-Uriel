@@ -1,117 +1,118 @@
-const productos = [
-    {
-        id: 1,
-        image: "assets/img/vaperred-Photoroom.jpg",
-        nombre: "Vaper Elfbar Rojo",
-        precio: 27000
-    },
-    {
-        id: 2,
-        image: "assets/img/vapergreen.jpg",
-        nombre: "Vaper Elfbar Verde",
-        precio: 27000
-    },
-    {
-        id: 3,
-        image: "assets/img/vaperpurple.jpg",
-        nombre: "Vaper Elfbar Violeta",
-        precio: 27000
-    },
-    {
-        id: 4,
-        image: "assets/img/jbltune2.jpg",
-        nombre: "Auriculares JBL Tune",
-        precio: 53000
-    },
-    {
-        id: 5,
-        image: "assets/img/jblwavebeambl1.jpg",
-        nombre: "Auriculares JBL Wave Beam 2 Bl",
-        precio: 85000
-    },
-    {
-        id: 6,
-        image: "assets/img/jblwavebeamne1.jpg",
-        nombre: "Auriculares JBL Wave Beam 2 Ne",
-        precio: 85000
-    },
-    {
-        id: 7,
-        image: "assets/img/vasotermico1.jpg",
-        nombre: "Vaso Termico Stanley (710ml)",
-        precio: 90000
-    },
-    {
-        id: 8,
-        image: "assets/img/jblflip1.jpg",
-        nombre: "Parlante JBL Flip 6",
-        precio: 180000
-    },
-    {
-        id: 9,
-        image: "assets/img/jblgo1.jpg",
-        nombre: "Parlante JBL Go 4",
-        precio: 60000
-    },
-]
+const PRODUCTS_JSON = './data/products.json'
+let cartProducts = JSON.parse(localStorage.getItem('cartProducts')) || []
+const productsContainer = document.getElementById('products-container')
+const inputBusqueda = document.getElementById('input-busqueda')
+const badgeCarrito = document.getElementById('badge-carrito')
 
-const cartProducts = []
-let productsContainer = document.getElementById("products-container")
+function saveToStorage(key, value) {
+  localStorage.setItem(key, JSON.stringify(value))
+}
+function loadFromStorage(key = 'cartProducts') {
+  try {
+    const raw = localStorage.getItem(key)
+    return raw ? JSON.parse(raw) : []
+  } catch (err) {
+    console.error('Error leyendo storage', err)
+    return []
+  }
+}
+function clearStorage(key = 'cartProducts') {
+  localStorage.removeItem(key)
+}
+
+async function fetchProductos(url) {
+  try {
+    const res = await fetch(url)
+    if (!res.ok) {
+      throw new Error('Error al obtener productos: ' + res.status)
+    }
+    const data = await res.json()
+    return data
+  } catch (err) {
+    console.error('fetchProductos error:', err)
+    return []
+  } finally {
+    
+  }
+}
+
+const productTemplate = `
+  <div class="col-12 col-sm-6 col-md-4">
+    <div class="card h-100">
+      <img src="{{image}}" class="card-img-top" alt="{{nombre}}">
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title">{{nombre}}</h5>
+        <p class="card-text mb-2">$ {{precio}}</p>
+        <div class="mt-auto">
+          <button class="productoAgregar btn btn-primary w-100 button" data-id="{{id}}">Agregar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+`
 
 function renderProductos(productsArray) {
-    productsArray.forEach(producto => {
-        const card = document.createElement("div")
-        card.innerHTML = `  <div class="card" style="width: 18rem">
-                                <figure>
-                                    <a href="./vaperrojo.html">
-                                        <img src="${producto.image}" class="card-img-top" alt="..." />
-                                    </a>
-                                </figure>
-                                <div class="card-body u-card-body">
-                                    <p class="pimg">${producto.nombre}<br />${producto.precio}</p>
-                                    <div class="u-btn-group">
-                                        <button class="productoAgregar button comprar-btn u-comprar-btn" id="${producto.id}">Agregar</button>
-                                    </div>
-                                </div>
-                            </div>`
-        productsContainer.appendChild(card)
-    })
-    agregarAlCarrito(productos)
-}
-renderProductos(productos)
-
-
-function agregarAlCarrito(productsArray) {
-    const addButton = document.querySelectorAll(".productoAgregar")
-    addButton.forEach(button => {
-        button.onclick = (e) => {
-            const productId = e.currentTarget.id
-            const selectedProduct = productsArray.find(producto => producto.id == productId)
-            cartProducts.push(selectedProduct)
-            console.log(cartProducts)
-
-            localStorage.setItem("cartProducts", JSON.stringify(cartProducts))
-        }
-    })
+  productsContainer.innerHTML = ''
+  productsArray.forEach(producto => {
+    const rendered = Mustache.render(productTemplate, producto)
+    productsContainer.insertAdjacentHTML('beforeend', rendered)
+  })
+  attachAddEvents(productsArray)
+  updateBadge()
 }
 
-const inputBusqueda = document.getElementById("input-busqueda")
-const formBusqueda = document.getElementById("form-busqueda")
+function obtenerNombres(productsArray) {
+  return productsArray.map(p => p.nombre)
+}
+
+function attachAddEvents(productsArray) {
+  const addButtons = document.querySelectorAll('.productoAgregar')
+  addButtons.forEach(btn => {
+    btn.onclick = (e) => {
+      const id = parseInt(e.currentTarget.dataset.id)
+      const producto = productsArray.find(p => p.id === id)
+      if (!producto) return
+      const existing = cartProducts.find(p => p.id === id)
+      if (existing) {
+        existing.cantidad += 1
+      } else {
+        cartProducts.push({ ...producto, cantidad: 1 })
+      }
+      saveToStorage('cartProducts', cartProducts)
+      updateBadge()
+    }
+  })
+}
 
 function limpiarProductos() {
-    productsContainer.innerHTML = ""
+  productsContainer.innerHTML = ''
+}
+if (inputBusqueda) {
+  inputBusqueda.addEventListener('input', () => {
+    const texto = inputBusqueda.value.toLowerCase().trim()
+    fetchProductos(PRODUCTS_JSON).then(productos => {
+      const resultados = productos.filter(producto =>
+        producto.nombre.toLowerCase().includes(texto)
+      )
+      limpiarProductos()
+      renderProductos(resultados)
+    })
+  })
 }
 
-inputBusqueda.addEventListener("input", () => {
-    const texto = inputBusqueda.value.toLowerCase().trim()
-    const resultados = productos.filter(producto =>
-        producto.nombre.toLowerCase().includes(texto)
-    )
-    limpiarProductos()
-    renderProductos(resultados)
-})
+function updateBadge() {
+  const totalItems = cartProducts.reduce((acc, p) => acc + (p.cantidad || 0), 0)
+  if (badgeCarrito) {
+    badgeCarrito.innerHTML = totalItems > 0 ? `<span class="badge">${totalItems}</span>` : ''
+  }
+}
 
-
+(async function init() {
+  cartProducts = loadFromStorage()
+  const productos = await fetchProductos(PRODUCTS_JSON)
+  renderProductos(productos)
+  console.log('Nombres de productos (map):', obtenerNombres(productos))
+})()
 
 
 

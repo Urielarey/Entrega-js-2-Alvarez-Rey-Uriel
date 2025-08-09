@@ -125,18 +125,6 @@ a {
     font-family: montserrat;
 }
 
-@media (max-width: 48rem) {
-    .catalogos {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 30rem) {
-    .catalogos {
-        grid-template-columns: 1fr;
-    }
-}
-
 .title form {
     display: flex;
     justify-content: center;
@@ -168,4 +156,44 @@ nav a {
     border-radius: 2px;
     border-color: #191716;
     border-style: solid;
+}
+
+@media (max-width: 1024px) {
+    .catalogos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .logo img {
+        width: 50%;
+        height: auto;
+    }
+
+    .productos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .catalogos {
+        grid-template-columns: 1fr;
+    }
+
+    .logo img {
+        width: 50%;
+        height: auto;
+    }
+
+    .productos {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
 }
